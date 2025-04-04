@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorpresa para ti</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6f0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        #mensaje {
+            display: none;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #d6336c;
+            text-align: center;
+        }
+        #imagen {
+            cursor: pointer;
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+        #imagen:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <img id="imagen" src="A_digital_image_features_a_centered_message_card_o.png" alt="Sorpresa">
+    <div id="mensaje">Te amo más de lo que puedes imaginar, gracias por hacerme tan feliz 💖</div>
+
+    <script>
+        document.getElementById("imagen").onclick = function() {
+            document.getElementById("mensaje").style.display = "block";
+        };
+    </script>
+</body>
+</html>
