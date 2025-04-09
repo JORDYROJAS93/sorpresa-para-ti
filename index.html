@@ -106,7 +106,7 @@
   </style>
 </head>
 <body>
-  <audio id="miAudio" controls loop>
+  <audio id="miAudio"  loop style="display: none;">
     <source src="Axel - Te Voy A Amar.mp3" type="audio/mpeg">
     Tu navegador no soporta el audio HTML5.
 </audio>
@@ -135,7 +135,7 @@
       for (let i = 0; i < 30; i++) {
         let corazon = document.createElement("span");
         corazon.classList.add("corazon");
-        corazon.innerHTML = "💞";
+        corazon.innerHTML = "💞 ❤️";
         corazon.style.left = `${Math.random() * 100}vw`;
         corazon.style.animationDuration = `${Math.random() * 2 + 2}s`;
         document.body.appendChild(corazon);
