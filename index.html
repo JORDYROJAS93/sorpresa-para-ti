@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sorpresa para ti</title>
+    <title>Tu y Yo</title>
+    <link rel="icon" href="icono.png" type="image/x-icon">
     <style>
         body {
             margin: 0;
@@ -12,11 +13,17 @@
             align-items: center;
             background-color: #ffe6f0;
             font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            flex-direction: column; /* Asegura que los elementos estén en columna */
         }
 
         .container {
             position: relative;
-            max-width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 80%;
         }
 
         #imagen {
@@ -28,10 +35,12 @@
 
         #mensaje {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centrado absoluto */
+            width: 80%;
+            max-width: 600px; /* Limitar el ancho máximo */
+            height: auto;
             background-color: rgba(255, 255, 255, 0.85);
             display: flex;
             justify-content: center;
@@ -39,32 +48,88 @@
             border-radius: 20px;
             color: #d6336c;
             font-size: 24px;
-            text-align: center;
+            text-align: justify;
             padding: 20px;
             box-sizing: border-box;
             display: none;
         }
+
+        .corazon {
+            position: absolute;
+            top: -50px;
+            font-size: 30px;
+            color: #ff66b2;
+            animation: caer 3s infinite;
+        }
+
+        @keyframes caer {
+            0% {
+                transform: translateY(-50px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Posición fija para el reproductor de audio en la parte inferior */
+        audio {
+            position: fixed;
+            bottom: 20px; /* Ajusta la distancia desde la parte inferior */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%; /* Ajusta el tamaño del reproductor */
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
+    <!-- Reproductor de audio en la parte inferior -->
+    <audio autoplay controls loop>
+        <source src="Axel - Te Voy A Amar.mp3" type="audio/mpeg">
+        Tu navegador no soporta el audio HTML5.
+    </audio>
+
+    <!-- Contenedor de la imagen y mensaje -->
     <div class="container" onclick="mostrarMensaje()">
         <img id="imagen" src="A_digital_image_features_a_centered_message_card_o.png" alt="Sorpresa">
         <div id="mensaje">
-    <div>
-        <p style="margin: 0; font-size: 24px;">Mi amor Mary 💖</p>
-        <p style="margin-top: 10px;">Gracias por estar en mi vida y por hacer cada día especial con tu sonrisa, tu dulzura y tu forma de ser.</p>
-        <p>Te amo más de lo que las palabras pueden expresar, y cada momento contigo es un regalo que valoro con todo mi corazón.</p>
-        <p>Gracias por ser tú. Te amo con locura y para siempre 💞</p>
-    </div>
-</div>
-
+            <div>
+                <h1 style="margin: 0; font-size: 24px;">Mi amor Mary 💖</h1>
+                <p style="margin-top: 10px;">Gracias por estar en mi vida y por hacer cada día especial con tu sonrisa, tu dulzura y tu forma de ser.</p>
+                <p>Te amo más de lo que las palabras pueden expresar, y cada momento contigo es un regalo que valoro con todo mi corazón.</p>
+                <p>Gracias por ser tú. Te amo con locura y para siempre 💞</p>
+            </div>
+        </div>
     </div>
 
     <script>
         function mostrarMensaje() {
             document.getElementById("mensaje").style.display = "flex";
+            crearLluviaDeCorazones();
+        }
+
+        function crearLluviaDeCorazones() {
+            for (let i = 0; i < 30; i++) {
+                let corazon = document.createElement("span");
+                corazon.classList.add("corazon");
+                corazon.innerHTML = "💖";
+                corazon.style.left = `${Math.random() * 100}vw`; // Ubicación aleatoria
+                corazon.style.animationDuration = `${Math.random() * 2 + 2}s`; // Duración aleatoria
+                document.body.appendChild(corazon);
+
+                // Eliminar el corazón después de la animación
+                setTimeout(() => {
+                    corazon.remove();
+                }, 30000);
+            }
         }
     </script>
 </body>
 </html>
+
 
