@@ -106,10 +106,11 @@
   </style>
 </head>
 <body>
-  <audio autoplay controls loop>
+  <audio id="miAudio" controls loop>
     <source src="Axel - Te Voy A Amar.mp3" type="audio/mpeg">
     Tu navegador no soporta el audio HTML5.
-  </audio>
+</audio>
+
 
   <div class="container" onclick="mostrarMensaje()">
     <img id="imagen" src="A_digital_image_features_a_centered_message_card_o.png" alt="Sorpresa">
@@ -134,13 +135,25 @@
       for (let i = 0; i < 30; i++) {
         let corazon = document.createElement("span");
         corazon.classList.add("corazon");
-        corazon.innerHTML = "💖";
+        corazon.innerHTML = "💞";
         corazon.style.left = `${Math.random() * 100}vw`;
         corazon.style.animationDuration = `${Math.random() * 2 + 2}s`;
         document.body.appendChild(corazon);
         setTimeout(() => corazon.remove(), 30000);
       }
     }
+
+    function mostrarMensaje() {
+    document.getElementById("mensaje").style.display = "flex";
+    crearLluviaDeCorazones();
+
+    // Reproducir música al hacer clic
+    const audio = document.getElementById("miAudio");
+    audio.play().catch(error => {
+        console.log("El navegador bloqueó la reproducción automática:", error);
+    });
+}
+
   </script>
 </body>
 </html>
