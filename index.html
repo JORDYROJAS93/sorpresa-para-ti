@@ -55,6 +55,12 @@
       padding: 20px;
       box-sizing: border-box;
       flex-direction: column;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+    
+    #mensaje.visible {
+    opacity: 1;
     }
 
     .corazon {
@@ -127,9 +133,24 @@
 
   <script>
     function mostrarMensaje() {
-      document.getElementById("mensaje").style.display = "flex";
-      crearLluviaDeCorazones();
+    const mensaje = document.getElementById("mensaje");
+    const audio = document.querySelector("audio");
+
+    mensaje.style.display = "flex";
+    setTimeout(() => {
+        mensaje.classList.add("visible");
+    }, 50); // pequeño retraso para que la transición funcione
+
+    crearLluviaDeCorazones();
+
+    // Intentar reproducir el audio al mostrar el mensaje
+    if (audio.paused) {
+        audio.play().catch(error => {
+            console.log("El navegador bloqueó la reproducción automática:", error);
+        });
     }
+}
+
 
     function crearLluviaDeCorazones() {
       for (let i = 0; i < 30; i++) {
