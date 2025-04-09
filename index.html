@@ -2,158 +2,262 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tu y Yo</title>
+  <title>Para Mi Amor</title>
   <link rel="icon" href="./icono.png" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --color-principal: #ff3385;
+      --color-secundario: #ff99c2;
+      --color-fondo: #fff0f5;
+      --fuente-principal: 'Georgia', serif; /* Fuente más legible */
+    }
+
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #ffe6f0;
-      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(217deg, var(--color-fondo), transparent),
+                  linear-gradient(127deg, #ffe6ee, transparent),
+                  linear-gradient(336deg, #fff0f5, transparent);
+      font-family: var(--fuente-principal);
       overflow: hidden;
-      flex-direction: column;
+      position: relative;
+      animation: fondo-magico 15s infinite alternate;
+    }
+
+    @keyframes fondo-magico {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
     }
 
     .container {
       position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       width: 90%;
       max-width: 800px;
-      height: 80%;
+      height: 80vh;
+      perspective: 1000px;
     }
 
     #imagen {
       width: 100%;
-      max-height: 100%;
+      height: 100%;
       border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       object-fit: cover;
+      transition: transform 0.5s, filter 0.5s;
+      transform-style: preserve-3d;
+    }
+
+    #imagen:hover {
+      transform: scale(1.02) rotateZ(1deg);
+      filter: brightness(1.05);
     }
 
     #mensaje {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0);
       width: 85%;
       max-width: 600px;
-      background-color: rgba(255, 255, 255, 0.9);
-      display: none;
-      justify-content: center;
-      align-items: center;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
-      color: #d6336c;
-      font-size: 20px;
-      text-align: justify;
-      padding: 20px;
+      color: var(--color-principal);
+      font-size: 1em;
+      padding: 30px;
       box-sizing: border-box;
-      flex-direction: column;
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      border: 2px solid var(--color-secundario);
+      text-align: justify;
     }
 
-    .corazon {
+    #mensaje.mostrar {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    #mensaje p {
+      margin-bottom: 15px; /* Espaciado entre párrafos */
+    }
+
+    .corazon-flotante {
       position: absolute;
-      top: -50px;
       font-size: 30px;
-      color: #ff66b2;
-      animation: caer 3s infinite;
+      color: var(--color-principal);
+      animation: flotar 5s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
     }
 
-    @keyframes caer {
-      0% { transform: translateY(-50px); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
+    @keyframes flotar {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
     }
 
-    audio {
+    .boton-musica {
       position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      border-radius: 10px;
-      z-index: 1000;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--color-principal);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
     }
 
-    /* 👇 Media Query para pantallas pequeñas */
+    .boton-musica:hover {
+      transform: scale(1.1);
+    }
+
+    .cerrar {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--color-principal);
+    }
+
     @media (max-width: 600px) {
       #mensaje {
-        font-size: 16px;
-        padding: 15px;
+        font-size: 0.9em;
+        padding: 20px;
       }
 
       .container {
-        height: auto;
-        flex-direction: column;
-      }
-
-      audio {
-        width: 95%;
-        bottom: 5px;
-      }
-
-      #imagen {
-        max-height: 60vh;
-        object-fit: contain;
+        height: 70vh;
       }
     }
   </style>
 </head>
 <body>
-  <audio id="miAudio"  loop style="display: none;">
+  <audio id="miAudio" loop>
     <source src="Axel - Te Voy A Amar.mp3" type="audio/mpeg">
-    Tu navegador no soporta el audio HTML5.
-</audio>
+    Tu navegador no soporta audio HTML5
+  </audio>
 
-
-  <div class="container" onclick="mostrarMensaje()">
-    <img id="imagen" src="A_digital_image_features_a_centered_message_card_o.png" alt="Sorpresa">
+  <div class="container">
+    <img id="imagen" src="A_digital_image_features_a_centered_message_card_o.png" alt="Nuestra foto" 
+         onclick="mostrarMensaje()" loading="eager">
     <div id="mensaje">
-      <div>
-        <h1 style="margin: 0; font-size: 24px; text-align: center;">❤️ Mi amor Mary ❤️</h1>
-        <p style="margin-top: 10px;">Gracias por estar en mi vida y por hacer cada día especial con tu sonrisa, tu dulzura y tu forma de ser.</p>
-        <p>Te amo más de lo que las palabras pueden expresar, y cada momento contigo es un regalo que valoro con todo mi corazón.</p>
-        <p>Gracias por ser tú. </p>
-        <p>Te amo con locura y para siempre 💞</p>
-      </div>
+      <span class="cerrar" onclick="ocultarMensaje()">&times;</span>
+      <h1 id="titulo-mensaje" style="text-align: center; margin: 0 0 20px; font-size: 1.5em;">💖 Mi Mary Preciosa 💖</h1>
+      <div id="texto-mensaje"></div>
     </div>
   </div>
 
+  <div class="boton-musica" onclick="controlarMusica()">🎵</div>
+
   <script>
+    const mensaje = document.getElementById('mensaje');
+    const tituloMensaje = document.getElementById('titulo-mensaje');
+    const textoMensaje = document.getElementById('texto-mensaje');
+    const audio = document.getElementById('miAudio');
+    let corazonesActivos = false;
+
+    const mensajes = [
+      "Desde que llegaste a mi vida, cada momento se ha convertido en una página de nuestro propio cuento de hadas.",
+      "Tu risa es mi melodía favorita, tu mirada mi refugio seguro, y tu amor mi mayor tesoro.",
+      "Gracias por ser mi complicidad, mi apoyo y mi inspiración diaria. Eres la razón por la que mi corazón late con tanta fuerza.",
+      "Recuerdo el día que te conocí, fue como si el universo conspirara para que nuestros caminos se cruzaran.",
+      "Cada detalle de ti me enamora más: tu bondad, tu inteligencia, tu forma única de ver la vida.",
+      "Me encanta cómo iluminas cualquier habitación con tu presencia, cómo haces que todo parezca mejor.",
+      "Eres mi compañera perfecta, mi mejor amiga, mi confidente, mi amor eterno.",
+      "Prometo estar a tu lado en los momentos buenos y en los malos, celebrando tus éxitos y apoyándote en tus desafíos.",
+      "Te amo hoy, mañana y por toda la eternidad 🌹"
+    ];
+
     function mostrarMensaje() {
-      document.getElementById("mensaje").style.display = "flex";
-      crearLluviaDeCorazones();
+      mensaje.classList.add('mostrar');
+      if (!corazonesActivos) {
+        crearCorazonesFlotantes();
+        corazonesActivos = true;
+      }
+      escribirMensaje();
+      audio.play().catch(() => {});
     }
 
-    function crearLluviaDeCorazones() {
-      for (let i = 0; i < 30; i++) {
-        let corazon = document.createElement("span");
-        corazon.classList.add("corazon");
-        corazon.innerHTML = "❤️";
-        corazon.style.left = `${Math.random() * 100}vw`;
-        corazon.style.animationDuration = `${Math.random() * 2 + 2}s`;
+    function ocultarMensaje() {
+      mensaje.classList.remove('mostrar');
+      textoMensaje.innerHTML = '';
+    }
+
+    function escribirMensaje(index = 0) {
+      if (index >= mensajes.length) return;
+
+      const parrafo = document.createElement('p'); // Crear un nuevo párrafo
+      textoMensaje.appendChild(parrafo);
+
+      const mensajeActual = mensajes[index];
+      let i = 0;
+      const interval = setInterval(() => {
+        parrafo.textContent += mensajeActual[i];
+        i++;
+        if (i >= mensajeActual.length) {
+          clearInterval(interval);
+          setTimeout(() => escribirMensaje(index + 1), 1000); // Esperar antes del siguiente párrafo
+        }
+      }, 50);
+    }
+
+    function crearCorazonesFlotantes() {
+      const animarCorazones = () => {
+        const corazon = document.createElement('div');
+        corazon.classList.add('corazon-flotante');
+        corazon.style.left = Math.random() * 100 + 'vw';
+        corazon.style.top = Math.random() * 100 + 'vh';
+        corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
+        corazon.innerHTML = '💖';
         document.body.appendChild(corazon);
-        setTimeout(() => corazon.remove(), 30000);
+
+        setTimeout(() => corazon.remove(), 5000);
+      };
+      setInterval(animarCorazones, 300);
+    }
+
+    function controlarMusica() {
+      const botonMusica = document.querySelector('.boton-musica');
+      if (audio.paused) {
+        audio.play();
+        botonMusica.textContent = '🎵';
+      } else {
+        audio.pause();
+        botonMusica.textContent = '⏸️';
       }
     }
 
-    function mostrarMensaje() {
-    document.getElementById("mensaje").style.display = "flex";
-    crearLluviaDeCorazones();
-
-    // Reproducir música al hacer clic
-    const audio = document.getElementById("miAudio");
-    audio.play().catch(error => {
-        console.log("El navegador bloqueó la reproducción automática:", error);
+    // Cerrar mensaje al hacer clic fuera
+    document.addEventListener('click', (e) => {
+      if (!mensaje.contains(e.target) && e.target.id !== 'imagen') {
+        ocultarMensaje();
+      }
     });
-}
-
   </script>
 </body>
 </html>
