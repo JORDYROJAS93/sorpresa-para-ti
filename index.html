@@ -167,7 +167,7 @@
          onclick="mostrarMensaje()" loading="eager">
     <div id="mensaje">
       <span class="cerrar" onclick="ocultarMensaje()">&times;</span>
-      <h1 id="titulo-mensaje" style="text-align: center; margin: 0 0 20px; font-size: 1.5em;">💖 Mi Mary Preciosa 💖</h1>
+      <h1 id="titulo-mensaje" style="text-align: center; margin: 0 0 20px; font-size: 1.5em;">❤️ Mi Mary  ❤️</h1>
       <div id="texto-mensaje"></div>
     </div>
   </div>
@@ -181,19 +181,24 @@
     const audio = document.getElementById('miAudio');
     let corazonesActivos = false;
 
+    let mensajeVisible = false; // Flag para controlar la visibilidad del mensaje
+    let intervalos = []; // Array para almacenar los IDs de los intervalos
+
     const mensajes = [
-      "Desde que llegaste a mi vida, cada momento se ha convertido en una página de nuestro propio cuento de hadas.",
-      "Tu risa es mi melodía favorita, tu mirada mi refugio seguro, y tu amor mi mayor tesoro.",
-      "Gracias por ser mi complicidad, mi apoyo y mi inspiración diaria. Eres la razón por la que mi corazón late con tanta fuerza.",
-      "Recuerdo el día que te conocí, fue como si el universo conspirara para que nuestros caminos se cruzaran.",
-      "Cada detalle de ti me enamora más: tu bondad, tu inteligencia, tu forma única de ver la vida.",
-      "Me encanta cómo iluminas cualquier habitación con tu presencia, cómo haces que todo parezca mejor.",
-      "Eres mi compañera perfecta, mi mejor amiga, mi confidente, mi amor eterno.",
-      "Prometo estar a tu lado en los momentos buenos y en los malos, celebrando tus éxitos y apoyándote en tus desafíos.",
-      "Te amo hoy, mañana y por toda la eternidad 🌹"
-    ];
+  "Desde que estás en mi vida, cada momento es especial.",
+  "Tu risa me encanta, tu mirada me da paz, y tu amor es lo más valioso.",
+  "Gracias por ser mi cómplice, mi apoyo y mi inspiración. Mi corazón late fuerte por ti.",
+  "Recuerdo cuando nos conocimos, fue como si el destino nos uniera.",
+  "Cada cosa de ti me enamora: tu bondad, tu inteligencia, tu visión de la vida.",
+  "Me encanta cómo iluminas todo a tu alrededor, cómo haces que las cosas mejoren.",
+  "Eres mi compañera, mi amiga, mi confidente, mi amor.",
+  "Prometo estar contigo en lo bueno y en lo malo, celebrando y apoyándote siempre.",
+  "Te amo hoy y siempre. 🌹"
+];
 
     function mostrarMensaje() {
+      if (mensajeVisible) return; // Evitar múltiples activaciones
+      mensajeVisible = true;
       mensaje.classList.add('mostrar');
       if (!corazonesActivos) {
         crearCorazonesFlotantes();
@@ -204,12 +209,16 @@
     }
 
     function ocultarMensaje() {
+      mensajeVisible = false; // Desactivar el flag
       mensaje.classList.remove('mostrar');
-      textoMensaje.innerHTML = '';
+      textoMensaje.innerHTML = ''; // Limpiar el contenido del mensaje
+      // Limpiar todos los intervalos activos
+      intervalos.forEach(interval => clearInterval(interval));
+      intervalos = []; // Reiniciar el array de intervalos
     }
 
     function escribirMensaje(index = 0) {
-      if (index >= mensajes.length) return;
+      if (!mensajeVisible || index >= mensajes.length) return; // Detener si el mensaje no está visible
 
       const parrafo = document.createElement('p'); // Crear un nuevo párrafo
       textoMensaje.appendChild(parrafo);
@@ -217,13 +226,20 @@
       const mensajeActual = mensajes[index];
       let i = 0;
       const interval = setInterval(() => {
+        if (!mensajeVisible) {
+          clearInterval(interval); // Detener el intervalo si el mensaje no está visible
+          return;
+        }
         parrafo.textContent += mensajeActual[i];
         i++;
         if (i >= mensajeActual.length) {
           clearInterval(interval);
+          intervalos = intervalos.filter(id => id !== interval); // Eliminar el intervalo del array
           setTimeout(() => escribirMensaje(index + 1), 1000); // Esperar antes del siguiente párrafo
         }
       }, 50);
+
+      intervalos.push(interval); // Guardar el ID del intervalo
     }
 
     function crearCorazonesFlotantes() {
@@ -233,7 +249,7 @@
         corazon.style.left = Math.random() * 100 + 'vw';
         corazon.style.top = Math.random() * 100 + 'vh';
         corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
-        corazon.innerHTML = '💖';
+        corazon.innerHTML = '❤️';
         document.body.appendChild(corazon);
 
         setTimeout(() => corazon.remove(), 5000);
